@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Train Platform Management</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            text-align: center;
+            background-color: #eef2f3;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        input {
+            padding: 8px;
+            margin: 5px;
+            width: 200px;
+        }
+
+        button {
+            padding: 10px;
+            margin: 5px;
+            cursor: pointer;
+        }
+
+        #output {
+            margin-top: 20px;
+            background: white;
+            padding: 15px;
+            width: 300px;
+            margin-left: auto;
+            margin-right: auto;
+            border-radius: 10px;
+            box-shadow: 0 0 5px gray;
+        }
+    </style>
+
+</head>
+
+<body>
+
+<h1>🚆 Train Platform Management</h1>
+
+<input type="number" id="trainNo" placeholder="Enter Train Number"><br>
+<input type="text" id="trainName" placeholder="Enter Train Name"><br>
+
+<button onclick="enqueue()">Train Arrival</button>
+<button onclick="dequeue()">Train Departure</button>
+<button onclick="displayTrains()">Display Trains</button>
+
+<div id="output">No trains at platform</div>
+
+<script>
+
+    const MAX = 5;
+    let queue = [];
+
+    // Train Arrival
+    function enqueue() {
+
+        let trainNo = document.getElementById("trainNo").value.trim();
+        let trainName = document.getElementById("trainName").value.trim();
+
+        if (trainNo === "" || trainName === "") {
+            alert("Enter all details!");
+            return;
+        }
+
+        if (queue.length >= MAX) {
+            alert("Platform Full!");
+            return;
+        }
+
+        queue.push({
+            trainNo: Number(trainNo),
+            trainName: trainName
+        });
+
+        alert("Train Arrived Successfully!");
+
+        clearInput();
+        displayTrains();
+    }
+
+    // Train Departure
+    function dequeue() {
+
+        if (queue.length === 0) {
+            alert("No trains at platform!");
+            return;
+        }
+
+        let t = queue.shift();
+
+        alert("Train Departed: " + t.trainNo + " - " + t.trainName);
+
+        displayTrains();
+    }
+
+    // Display Trains
+    function displayTrains() {
+
+        let output = document.getElementById("output");
+
+        if (queue.length === 0) {
+            output.innerHTML = "<b>No trains at platform</b>";
+            return;
+        }
+
+        let text = "<h3>Trains at Platform:</h3>";
+
+        for (let i = 0; i < queue.length; i++) {
+            text += queue[i].trainNo + " - " + queue[i].trainName + "<br>";
+        }
+
+        output.innerHTML = text;
+    }
+
+    // Clear input fields
+    function clearInput() {
+        document.getElementById("trainNo").value = "";
+        document.getElementById("trainName").value = "";
+    }
+
+</script>
+
+</body>
+</html>
